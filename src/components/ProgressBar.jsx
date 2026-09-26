@@ -1,18 +1,14 @@
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { gsap, useGSAP } from "../lib/gsap";
 
 export default function ProgressBar() {
   const barRef = useRef(null);
 
   useGSAP(() => {
     gsap.to(barRef.current, {
-      width: "100%",
+      scaleX: 1,
       ease: "none",
-      scrollTrigger: { scrub: 0.3 },
+      scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
     });
   });
 

@@ -1,30 +1,40 @@
-import { useState } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useState } from "react";
+import { ScrollTrigger, useGSAP } from "./lib/gsap";
+import { initSmoothScroll } from "./lib/scroll";
 
-import Sidebar from "./components/Sidebar";
+import Preloader from "./components/Preloader";
+import Cursor from "./components/Cursor";
 import ProgressBar from "./components/ProgressBar";
+import Nav from "./components/Nav";
 import Hero from "./components/Hero";
+import Marquee from "./components/Marquee";
 import About from "./components/About";
 import Work from "./components/Work";
 import Skills from "./components/Skills";
 import Experience from "./components/Experience";
 import Contact from "./components/Contact";
-import { nav } from "./data/content";
+import { nav, skills } from "./data/content";
 
 import "./App.css";
 
-gsap.registerPlugin(ScrollTrigger);
+const tickerItems = skills.flatMap((s) => s.items.split(" · ")).slice(0, 12);
 
 export default function App() {
+  const [ready, setReady] = useState(false);
   const [activeId, setActiveId] = useState(nav[0].id);
 
+  useEffect(() => initSmoothScroll(), []);
+
+  // Web fonts change text metrics, so re-measure every trigger once they land.
+  useEffect(() => {
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+  }, []);
+
   useGSAP(() => {
-    const triggers = nav.map(({ id }) => {
+    nav.forEach(({ id }) => {
       const el = document.getElementById(id);
-      if (!el) return null;
-      return ScrollTrigger.create({
+      if (!el) return;
+      ScrollTrigger.create({
         trigger: el,
         start: "top 50%",
         end: "bottom 50%",
@@ -32,24 +42,24 @@ export default function App() {
         onEnterBack: () => setActiveId(id),
       });
     });
-
-    return () => triggers.forEach((t) => t && t.kill());
   }, []);
 
   return (
     <>
+      <Preloader onDone={() => setReady(true)} />
+      <Cursor />
       <ProgressBar />
-      <div className="shell">
-        <Sidebar activeId={activeId} />
-        <main>
-          <Hero />
-          <About />
-          <Work />
-          <Skills />
-          <Experience />
-          <Contact />
-        </main>
-      </div>
+      <div className="grain" aria-hidden="true" />
+      <Nav activeId={activeId} ready={ready} />
+      <main>
+        <Hero ready={ready} />
+        <Marquee items={tickerItems} />
+        <About />
+        <Work />
+        <Skills />
+        <Experience />
+        <Contact />
+      </main>
     </>
   );
 }

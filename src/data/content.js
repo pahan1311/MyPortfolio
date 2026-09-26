@@ -5,6 +5,7 @@ export const profile = {
   role: "Backend & infrastructure engineer",
   status: "open to select projects",
   location: "Colombo, LK",
+  timeZone: "Asia/Colombo",
   github: "https://github.com/alexrivera",
   linkedin: "https://linkedin.com/in/alexrivera",
   email: "hello@alexrivera.dev",
@@ -21,6 +22,8 @@ export const nav = [
 
 export const hero = {
   headline: "I build systems that stay up at 3am so you don't have to",
+  // This word in the headline gets the accent color.
+  headlineAccent: "3am",
   sub: "Six years designing distributed backends and developer tooling — from payment infrastructure handling millions of daily transactions to internal platforms that cut deploy time from hours to minutes.",
   terminalLines: [
     { text: '<span class="c">$</span> whoami', delay: 0 },
@@ -46,6 +49,13 @@ export const about = {
     { label: "Currently at", val: "Meridian Systems" },
     { label: "Available", val: "Q4 2026" },
   ],
+  // Animated counters. `value` counts up from 0; `suffix` is appended as-is.
+  metrics: [
+    { value: 6, suffix: "+", label: "years in production" },
+    { value: 4, suffix: "M+", label: "transactions / day" },
+    { value: 40, suffix: "+", label: "engineers on Forge" },
+    { value: 87, suffix: "%", label: "faster deploys" },
+  ],
 };
 
 export const projects = [
@@ -54,6 +64,7 @@ export const projects = [
     title: "Ledger — real-time payment reconciliation engine",
     desc: "Rebuilt a legacy batch-reconciliation job into an event-driven pipeline processing 4M+ transactions a day, cutting reconciliation lag from 6 hours to under 90 seconds.",
     stack: ["Go", "Kafka", "PostgreSQL", "Terraform"],
+    metric: { from: "6h", to: "90s", label: "reconciliation lag" },
     caseStudyUrl: "#",
     repoUrl: "#",
   },
@@ -62,6 +73,7 @@ export const projects = [
     title: "Forge — internal deploy platform",
     desc: "Designed and shipped a self-service deployment tool used by 40+ engineers, replacing a manual Jenkins process. Average deploy time dropped from 45 minutes to 6.",
     stack: ["TypeScript", "Docker", "Kubernetes"],
+    metric: { from: "45m", to: "6m", label: "average deploy time" },
     caseStudyUrl: "#",
     repoUrl: "#",
   },
@@ -70,6 +82,7 @@ export const projects = [
     title: "Waypoint — API gateway & rate limiter",
     desc: "Open-source rate-limiting proxy built on a sliding-window algorithm; adopted by three external teams and now handles auth for the company's public API.",
     stack: ["Rust", "Redis", "gRPC"],
+    metric: { from: "0", to: "3", label: "external teams adopted it" },
     caseStudyUrl: "#",
     repoUrl: "#",
   },
@@ -105,5 +118,6 @@ export const experience = [
 
 export const contact = {
   heading: "Got something worth building? Let's talk.",
+  marquee: "Let's build something reliable",
   sub: "I'm currently taking on a small number of consulting engagements starting Q4 2026, and always open to hearing about interesting backend problems.",
 };
